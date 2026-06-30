@@ -22,13 +22,15 @@ Generally, following [this tutorial](https://gamebanana.com/tuts/19072) will put
 
 You can also find the original, unmodified files as already-decompiled files in `Originals/`. No PRs may be made to this folder, except to fix corrupted files.
 
-Each character's name, along with different ways refer to them, are stored in `NameCuts/`. PRs may be made to this folder to add non-standard references to characters that I missed; "the detective" vs "Abrams". Audio files here must contain only words specifically referring to a character, to make editing easier.
+Each character's name, along with different ways refer to them, are stored in `NameCuts/`. PRs may be made to this folder to add non-standard references to characters that I missed; "the detective" vs "Abrams". Audio files here must contain only words specifically referring to a character, to make editing easier. `NameCuts/` is not meant to have modified lines; it is a repository of all character names in deadlock as audio from the patrons.
 
 Editing can be done in any program as long as the final output is .mp3. I recommend [Audacity](https://www.audacityteam.org/). If you're unfamiliar with cutting multiple audio files together, do some quick googling - I promise it's a very easy edit.
 
 ## Designing Your Voiceline
 
-The general rule is to have the patrons correctly refer to the character, but use the wrong information about them. So if you wanted to replace Victor's patron intro about finding closure, you would use the Victor NameCut file combined with someone else's intro, i.e. the Ivy intro line about making life better for the arroyos. This rule can be broken, but it better be funny.
+The general rule is to have the patrons correctly refer to the character, but use the wrong information about them. So if you wanted to replace Victor's patron intro about finding closure, you would use the Victor NameCut file combined with someone else's intro, i.e. the Ivy intro line about making life better for the arroyos. You can also have the patron refer to the wrong character but with the right information, but we want to avoid having both pieces be wrong.
+
+Don't mix and match hidden king lines with archmother lines. This rule almost definitely shouldn't be broken - it'd have to be *really* funny.
 
 Generally, put the name/character reference wherever the previous name was. Example: `The detective fights for us all` becomes `Victor fights for us all`.
 
@@ -51,3 +53,7 @@ Fork this repo and place the edited audio files into `Modified/path/to/specific/
 Remember:
 * You may not replace an existing modified line.
 * If you've added more variant lines, ensure their names contain "new_" at the start.
+* Make sure your PR only contains your changes, and not random spare files.
+* If you're adding files to NameCuts, keep that as a separate PR from adding modified lines. Also try to keep the name scheme in line.
+
+If your PR is approved, I'll add your name to Contributors.txt and credit you on the mod page! If you want to be credited as something other than your github handle, please say so in your PR.
