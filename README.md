@@ -56,7 +56,7 @@ To play a specific soundevent in the deadlock in-game console, use this command:
 
 ## Submitting Your Voiceline(s)
 
-Fork this repo and place the edited audio files into `Modified/path/to/specific/line/your_line.mp3`. Make sure the file is exactly the same name as the original!
+Fork this repo and place the edited audio files into `Modified/path/to/specific/line/your_line.mp3`. Make sure the file is exactly the same name as the original! If it's not (usually because that character interaction has already had all their voicelines modified), make sure to add it to the relevent vsndevts file and include that in your PR. Try and keep the filename scheme: `patron_{gender}_{ally/enemy}_{character}_{action}_{number from 01 to 99, ascending from previous}`
 
 Remember:
 * You may not replace an existing modified line.
