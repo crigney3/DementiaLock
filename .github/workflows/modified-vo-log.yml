@@ -1,0 +1,50 @@
+name: Update Modified Lines Log
+
+# Runs whenever a pull request is closed. The job itself then checks that
+# it was actually merged (as opposed to just closed without merging) before
+# doing anything.
+on:
+  pull_request:
+    types: [closed]
+
+  # Lets you trigger it manually from the Actions tab too, e.g. to refresh
+  # the log without needing a PR merge.
+  workflow_dispatch:
+
+jobs:
+  update-log:
+    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+
+    # Needed so the job can push the updated log file back to the repo.
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+        with:
+          # Make sure we're on the branch the PR merged into, not a
+          # detached HEAD, so we can push back to it afterwards.
+          ref: ${{ github.event.pull_request.base.ref || github.ref_name }}
+
+      - name: Generate ModifiedLinesLog.txt
+        shell: pwsh
+        run: ./GithubActionScripts/Generate-ModifiedLinesLog.ps1 -RepoRoot "${{ github.workspace }}"
+
+      - name: Commit and push log
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ModifiedLinesLog.txt
+          if git diff --cached --quiet; then
+            echo "No changes to ModifiedLinesLog.txt - skipping commit."
+          else
+            git commit -m "Update ModifiedLinesLog.txt [skip ci]"
+            git push
+          fi
+
+      - name: Add summary to workflow run
+        shell: pwsh
+        run: |
+          Get-Content ModifiedLinesLog.txt | Out-File -Append -FilePath $env:GITHUB_STEP_SUMMARY
