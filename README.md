@@ -4,9 +4,11 @@ The patrons keep forgetting which character they're talking to.
 
 *This is a sound-only mod.*
 
+**No AI or Original VO is used in this mod!** It is entirely cuts of existing Deadlock voicelines.
+
 ## Installing DementiaLock
 
-*TODO on first release, should be same as any other sound mod*
+**Available on (GameBanana)[https://gamebanana.com/sounds/91070]**, please use the [Deadlock Mod Manager](https://deadlockmods.app/) to install.
 
 # Contributing Voicelines
 
@@ -16,15 +18,21 @@ All VO in DementiaLock is done by cutting together character-specific patron dia
 
 ## How to Edit a Voiceline
 
-Generally, following [this tutorial](https://gamebanana.com/tuts/19072) will put you on the right track. Full path to relevant sounds in Source2Viewer is:
+Generally, following [this tutorial](https://deadlockmodding.pages.dev/modding-guides/replacing-sounds) will put you on the right track. Full path to relevant sounds in Source2Viewer is:
 
 `citadel/pak01_dir.vpk -> sounds/vo/announcer/(fe)male_patron/desired_voiceline.vsnd_c`
 
-You can also find the original, unmodified files as already-decompiled files in `Originals/`. No PRs may be made to this folder, except to fix corrupted files.
+You can also find the original, unmodified files as already-decompiled files in `Originals/`. No PRs may be made to this folder, except to fix corrupted files/add missing files.
 
 Each character's name, along with different ways refer to them, are stored in `NameCuts/`. PRs may be made to this folder to add non-standard references to characters that I missed; "the detective" vs "Abrams". Audio files here must contain only words specifically referring to a character, to make editing easier. `NameCuts/` is not meant to have modified lines; it is a repository of all character names in deadlock as audio from the patrons.
 
-Editing can be done in any program as long as the final output is .mp3. I recommend [Audacity](https://www.audacityteam.org/). If you're unfamiliar with cutting multiple audio files together, do some quick googling - I promise it's a very easy edit.
+Editing can be done in any program as long as the final output is .mp3. I recommend [Audacity](https://www.audacityteam.org/). If you're unfamiliar with cutting multiple audio files together, it's basically these steps every time (assuming Audacity):
+
+1. Open the original line in Audacity
+2. Select the name/character reference to remove, ctrl+alt+x to remove it while leaving blank space. Select the start of the track to deselect.
+3. Drag the NameCut you want into Audacity, it will appear as a separate track.
+4. Press f5 for the time shift tool. Move the tracks so they line up (or close to line up, sometimes that sounds better.)
+5. Export to mp3! Make sure it's in the correct folder under `Modified/` and has the correct name so it gets picked up by soundevents.
 
 ## Designing Your Voiceline
 
@@ -34,17 +42,17 @@ Don't mix and match hidden king lines with archmother lines. This rule almost de
 
 Generally, put the name/character reference wherever the previous name was. Example: `The detective fights for us all` becomes `Victor fights for us all`.
 
-Before you choose a voiceline to edit, **MAKE SURE that a line of the same file name does not already exist in the `Modified/` subfolders!** Individual voicelines are first-come, first-serve. If someone has already replaced the word "wraith" in `patron_male_enemy_wraith_killing_streak_high_01`, and that file was accepted into `Modified/`, you'll have to find another voiceline to edit.
+Technically, we can add as many lines as we want. **However**, once there are as many lines in the relevant `Modified/` subfolder as the relevant `Originals/` subfolder, new lines will need to added to the relevant vsndevts (usually generated_vo_misc.vsndevts). Try and spread additions to vsndevts's `vsnd_files` arrays evenly; if you're adding 5 Yamato intro lines, placing them all in `patron_male_ally_yamato_start_01_announcer` will mean there's only a 1/6 chance to play your line after the 1/5 chance to get that sound event. If instead you put one in each of `patron_male_ally_yamato_start_01_announcer` through `patron_male_ally_yamato_start_05_announcer`, you have a much higher chance of hearing your line in game.
 
-No edits may be made to `"Minaaaa Haaaaaa, rise up and take what you deserve!"`. Even the dementia-addled patrons can't forget the perfect voiceline. (`patron_(fe)male_ally_vampirebat_killing_streak_01`, for reference)
+No edits may be made to `"Minaaaa Haaaaaa, rise up and take what you deserve!"`. Even the dementia-addled patrons can't forget the perfect voiceline. You can still give that line to other characters, though! (`patron_(fe)male_ally_vampirebat_killing_streak_01`, for reference)
 
 ## Compiling and Testing Your Voiceline(s)
 
 You don't need to submit compiled files; mp3s are what I'm looking for. I will handle compilation and submission.
 
-*If you're making a change beyond replacing an existing voiceline*, such as adding more variants of a line than exist in base game, please compile and test your work before sending in a PR. The most commonly used SoundEvents files are in `SoundEvents/`.
+*If you're making a change beyond replacing an existing voiceline or adding to a vsnd_files array*, please compile and test your work before sending in a PR. The most commonly used SoundEvents files are in `SoundEvents/`. [The audio tutorial](https://deadlockmodding.pages.dev/modding-guides/replacing-sounds) covers how to recompile assets for testing with the CSDK12 tools.
 
-To play a specific sound in the deadlock in-game console, use this command: `snd_sos_start_soundevent soundevent_name`
+To play a specific soundevent in the deadlock in-game console, use this command: `snd_sos_start_soundevent path_to_soundevent`. Playing a specific sound is easier: `play path_to_sound`.
 
 ## Submitting Your Voiceline(s)
 
@@ -56,4 +64,4 @@ Remember:
 * Make sure your PR only contains your changes, and not random spare files.
 * If you're adding files to NameCuts, keep that as a separate PR from adding modified lines. Also try to keep the name scheme in line.
 
-If your PR is approved, I'll add your name to Contributors.txt and credit you on the mod page! If you want to be credited as something other than your github handle, please say so in your PR.
+If your PR is approved, I'll add you as a contributor to the mod on GameBanan! If you have a GameBanana username you want me to use, or a specific way you want to be credited, please say so in your PR.
