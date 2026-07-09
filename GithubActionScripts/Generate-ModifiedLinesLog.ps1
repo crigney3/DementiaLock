@@ -155,4 +155,70 @@ Add-TreeLines -Node $rootNode -Prefix '' -IsLast $true -IsRoot $true -Lines $lin
 $logPath = Join-Path $RepoRoot 'ModifiedLinesLog.txt'
 Set-Content -Path $logPath -Value $lines
 
-Write-Host "Wrote $logPath ($($rootNode.Total) total mp3 files found under $ModifiedFolderName/)"
+Write-Host "Wrote $logPath ($($rootNode.Total) total Voicelines found under $ModifiedFolderName/)"
+
+# ---------------------------------------------------------------------------
+# Contributor leaderboard
+#
+# For each mp3 under Modified/, ask git who committed the change that added
+# it (the most recent "A" - added - entry for that file's history). Tallies
+# are written as an ASCII leaderboard to Contributors.txt, sorted highest
+# first, overwriting whatever was there before each run.
+# ---------------------------------------------------------------------------
+function Get-FileAuthor {
+    param([string]$FilePath)
+
+    $author = git -C $RepoRoot log --diff-filter=A --format='%an' -1 -- "$FilePath" 2>$null
+    if (-not $author) {
+        # Fallback: no "added" entry found (e.g. shallow history) - fall
+        # back to whoever most recently touched the file.
+        $author = git -C $RepoRoot log --format='%an' -1 -- "$FilePath" 2>$null
+    }
+    if (-not $author) {
+        $author = 'Unknown'
+    }
+    return $author.Trim()
+}
+
+$allMp3s = Get-ChildItem -Path $modifiedPath -Recurse -File -Filter '*.mp3'
+$contributorCounts = @{}
+
+foreach ($mp3 in $allMp3s) {
+    $author = Get-FileAuthor -FilePath $mp3.FullName
+    if ($contributorCounts.ContainsKey($author)) {
+        $contributorCounts[$author]++
+    }
+    else {
+        $contributorCounts[$author] = 1
+    }
+}
+
+$ranked = $contributorCounts.GetEnumerator() | Sort-Object -Property Value -Descending
+
+$contribLines = [System.Collections.Generic.List[string]]::new()
+$contribLines.Add("Contributors Leaderboard - generated $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
+$contribLines.Add("")
+
+if ($ranked.Count -eq 0) {
+    $contribLines.Add("No mp3 files found under $ModifiedFolderName/")
+}
+else {
+    $nameWidth = [Math]::Max(20, (($ranked | ForEach-Object { $_.Key.Length }) | Measure-Object -Maximum).Maximum + 2)
+
+    $header = "{0,-6}{1,-$nameWidth}{2}" -f 'Rank', 'Contributor', 'Voicelines'
+    $contribLines.Add($header)
+    $contribLines.Add('-' * $header.Length)
+
+    $rank = 0
+    foreach ($entry in $ranked) {
+        $rank++
+        $bar = '#' * [Math]::Min($entry.Value, 25)
+        $line = "{0,-6}{1,-$nameWidth}{2}  $bar" -f $rank, $entry.Key, $entry.Value
+        $contribLines.Add($line)
+    }
+}
+
+$contributorsPath = Join-Path $RepoRoot 'Contributors.txt'
+Set-Content -Path $contributorsPath -Value $contribLines
+
+Write-Host "Wrote $contributorsPath ($($ranked.Count) contributor(s))"

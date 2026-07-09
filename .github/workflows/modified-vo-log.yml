@@ -13,38 +13,44 @@ on:
 
 jobs:
   update-log:
-    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
+  if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+  runs-on: ubuntu-latest
 
-    # Needed so the job can push the updated log file back to the repo.
-    permissions:
-      contents: write
+  # Needed so the job can push the updated log file back to the repo.
+  permissions:
+    contents: write
 
-    steps:
-      - name: Check out repo
-        uses: actions/checkout@v4
-        with:
-          # Make sure we're on the branch the PR merged into, not a
-          # detached HEAD, so we can push back to it afterwards.
-          ref: ${{ github.event.pull_request.base.ref || github.ref_name }}
+  steps:
+    - name: Check out repo
+      uses: actions/checkout@v4
+      with:
+        # Make sure we're on the branch the PR merged into, not a
+        # detached HEAD, so we can push back to it afterwards.
+        ref: ${{ github.event.pull_request.base.ref || github.ref_name }}
+        # Full history is required - the contributor leaderboard uses
+        # `git log` per file to find who added it, which needs more
+        # than the default shallow (depth-1) clone.
+        fetch-depth: 0
 
-      - name: Generate ModifiedLinesLog.txt
-        shell: pwsh
-        run: ./GithubActionScripts/Generate-ModifiedLinesLog.ps1 -RepoRoot "${{ github.workspace }}"
+    - name: Generate ModifiedLinesLog.txt and Contributors.txt
+      shell: pwsh
+      run: ./scripts/Generate-ModifiedLinesLog.ps1 -RepoRoot "${{ github.workspace }}"
 
-      - name: Commit and push log
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add ModifiedLinesLog.txt
-          if git diff --cached --quiet; then
-            echo "No changes to ModifiedLinesLog.txt - skipping commit."
-          else
-            git commit -m "Update ModifiedLinesLog.txt [skip ci]"
-            git push
-          fi
+    - name: Commit and push log
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add ModifiedLinesLog.txt Contributors.txt
+        if git diff --cached --quiet; then
+          echo "No changes to commit - skipping."
+        else
+          git commit -m "Update ModifiedLinesLog.txt and Contributors.txt [skip ci]"
+          git push
+        fi
 
-      - name: Add summary to workflow run
-        shell: pwsh
-        run: |
-          Get-Content ModifiedLinesLog.txt | Out-File -Append -FilePath $env:GITHUB_STEP_SUMMARY
+    - name: Add summary to workflow run
+      shell: pwsh
+      run: |
+        Get-Content ModifiedLinesLog.txt | Out-File -Append -FilePath $env:GITHUB_STEP_SUMMARY
+        "" | Out-File -Append -FilePath $env:GITHUB_STEP_SUMMARY
+        Get-Content Contributors.txt | Out-File -Append -FilePath $env:GITHUB_STEP_SUMMARY
