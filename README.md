@@ -36,6 +36,8 @@ Editing can be done in any program as long as the final output is .mp3. I recomm
 
 ## Designing Your Voiceline
 
+Not sure where to start? Check out all the lines for the [Hidden King](https://deadlock.wiki/The_Hidden_King/Quotes) and [Archmother](https://deadlock.wiki/The_Archmother/Quotes) on the Deadlock Wiki!
+
 ### Types of Modified VO
 
 1. **Right Motivations, Wrong Name** - Example: replace Victor's patron intro with the same 'summon me to find closure' line, but with Ivy's name instead.
