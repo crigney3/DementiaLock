@@ -58,7 +58,7 @@ No edits may be made to `"Minaaaa Haaaaaa, rise up and take what you deserve!"`.
 
 You don't need to submit compiled files; mp3s are what I'm looking for. I will handle compilation and submission.
 
-*If you're making a change beyond replacing an existing voiceline or adding to a vsnd_files array*, please compile and test your work before sending in a PR. The most commonly used SoundEvents files are in `SoundEvents/`. [The audio tutorial](https://deadlockmodding.pages.dev/modding-guides/replacing-sounds) covers how to recompile assets for testing with the CSDK12 tools.
+*If you're making a change beyond replacing an existing voiceline or adding to a vsnd_files array*, please compile and test your work before sending in a PR. The most commonly used SoundEvents files are in `SoundEvents/`. [The audio tutorial](https://deadlockmodding.pages.dev/modding-guides/replacing-sounds) covers how to recompile assets for testing with the CSDK12 tools. [Deadlock Forge](https://deadlockforge.net/) Also offers an easy way to compile your sounds into a VPK, although it can't modify soundevents.
 
 To play a specific soundevent in the deadlock in-game console, use this command: `snd_sos_start_soundevent path_to_soundevent`. Playing a specific sound is easier: `play path_to_sound`.
 
