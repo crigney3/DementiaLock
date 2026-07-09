@@ -123,7 +123,7 @@ function Add-TreeLines {
         $countPart = "($($Node.Total)/$($Node.Max))"
     }
     else {
-        $countPart = "($($Node.Total) mp3s)"
+        $countPart = "($($Node.Total) Voicelines)"
     }
 
     if ($IsRoot) {

@@ -4,7 +4,7 @@ name: Update Modified Lines Log
 # it was actually merged (as opposed to just closed without merging) before
 # doing anything.
 on:
-  pull_request:
+  pull_request_target:
     types: [closed]
 
   # Lets you trigger it manually from the Actions tab too, e.g. to refresh
