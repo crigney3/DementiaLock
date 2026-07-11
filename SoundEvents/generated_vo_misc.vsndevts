@@ -15137,6 +15137,7 @@
 		context_name = "male_patron"
 		vsnd_files = 
 		[
+			"sounds/vo/announcer/male_patron/patron_male_ally_viper_start_01.vsnd",
 			"sounds/vo/announcer/male_patron/patron_male_ally_viper_start_02.vsnd",
 		]
 		vsnd_duration = 14.774667
