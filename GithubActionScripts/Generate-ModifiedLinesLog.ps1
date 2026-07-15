@@ -41,7 +41,9 @@
 param(
     [string]$RepoRoot = (Get-Location).Path,
 
-    [string]$ModifiedFolderName = 'Modified'
+    [string]$ModifiedFolderName = 'Modified',
+
+    [string]$OriginalsFolderName = 'Originals'
 )
 
 $modifiedPath = Join-Path $RepoRoot $ModifiedFolderName
@@ -147,8 +149,18 @@ function Add-TreeLines {
 # ---------------------------------------------------------------------------
 $rootNode = Get-Node -Path $modifiedPath -PathSegments @()
 
+$originalsPath = Join-Path $RepoRoot $OriginalsFolderName
+if (Test-Path $originalsPath) {
+    $originalsTotal = (Get-ChildItem -Path $originalsPath -Recurse -File -Filter '*.mp3' -ErrorAction SilentlyContinue).Count
+}
+else {
+    Write-Host "'$OriginalsFolderName' folder not found under $RepoRoot - using 0 as the total." -ForegroundColor Yellow
+    $originalsTotal = 0
+}
+
 $lines = [System.Collections.Generic.List[string]]::new()
 $lines.Add("Modified Lines Log - generated $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')")
+$lines.Add("$($rootNode.Total)/$originalsTotal Voicelines")
 $lines.Add("")
 Add-TreeLines -Node $rootNode -Prefix '' -IsLast $true -IsRoot $true -Lines $lines
 
@@ -168,10 +180,22 @@ Write-Host "Wrote $logPath ($($rootNode.Total) total Voicelines found under $Mod
 function Get-FileAuthor {
     param([string]$FilePath)
 
-    $author = git -C $RepoRoot log --diff-filter=A --format='%an' -1 -- "$FilePath" 2>$null
+    # --follow traces this path's history across renames (e.g. after running
+    # Renumber-NameClips.ps1, which renames leftover clips), so credit goes
+    # to whoever originally added the content - not whoever's commit happens
+    # to have introduced its current filename.
+    $history = git -C $RepoRoot log --follow --format='%an' -- "$FilePath" 2>$null
+ 
+    $author = $null
+    if ($history) {
+        # git log lists newest-first, so the last line is the oldest commit
+        # in the followed history - i.e. the original add.
+        $author = $history | Select-Object -Last 1
+    }
+ 
     if (-not $author) {
-        # Fallback: no "added" entry found (e.g. shallow history) - fall
-        # back to whoever most recently touched the file.
+        # Fallback: no history found at all (e.g. shallow clone) - fall back
+        # to whoever most recently touched the file, better than nothing.
         $author = git -C $RepoRoot log --format='%an' -1 -- "$FilePath" 2>$null
     }
     if (-not $author) {
@@ -212,7 +236,7 @@ else {
     $rank = 0
     foreach ($entry in $ranked) {
         $rank++
-        $bar = '#' * [Math]::Min($entry.Value, 25)
+        $bar = '#' * [Math]::Min($entry.Value, 50)
         $line = "{0,-6}{1,-$nameWidth}{2}  $bar" -f $rank, $entry.Key, $entry.Value
         $contribLines.Add($line)
     }

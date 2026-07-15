@@ -7387,6 +7387,7 @@
 		vsnd_files = 
 		[
 			"sounds/vo/announcer/female_patron/patron_female_enemy_bebop_killing_streak_low_01.vsnd",
+			"sounds/vo/announcer/female_patron/patron_female_enemy_bebop_killing_streak_low_01_alt.vsnd",
 		]
 		vsnd_duration = 4.108271
 	}
@@ -15137,6 +15138,7 @@
 		context_name = "male_patron"
 		vsnd_files = 
 		[
+			"sounds/vo/announcer/male_patron/patron_male_ally_viper_start_01.vsnd",
 			"sounds/vo/announcer/male_patron/patron_male_ally_viper_start_02.vsnd",
 		]
 		vsnd_duration = 14.774667
