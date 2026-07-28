@@ -13979,6 +13979,7 @@
 		vsnd_files = 
 		[
 			"sounds/vo/announcer/male_patron/patron_male_ally_lash_killing_streak_02.vsnd",
+			"sounds/vo/announcer/male_patron/patron_male_ally_lash_killing_streak_02_alt.vsnd",
 		]
 		vsnd_duration = 4.858667
 	}
