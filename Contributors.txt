@@ -1,8 +1,8 @@
-Contributors Leaderboard - generated 2026-07-16 04:19:24
+Contributors Leaderboard - generated 2026-07-28 03:29:07
 
 Rank  Contributor         Voicelines
 ------------------------------------
-1     Corey Rigney        83  ##################################################
+1     Corey Rigney        87  ##################################################
 2     mundanesalad        8  ########
 3     Mogo-Mogo           6  ######
 4     Kamayana            4  ####
