@@ -6350,7 +6350,14 @@
 	{
 		context_name = "npc_female_patron"
 		base = "Base.VO.Announcer"
-		vsnd_files = "sounds/vo/announcer/female_patron/patron_female_enemy_viper_killing_streak_low_01.vsnd"
+		vsnd_files = [
+			"sounds/vo/announcer/female_patron/patron_female_enemy_viper_killing_streak_low_01.vsnd",
+			"sounds/vo/announcer/female_patron/patron_female_enemy_viper_killing_streak_low_01_alt.vsnd",
+			"sounds/vo/announcer/female_patron/patron_female_enemy_viper_killing_streak_low_01_alt2.vsnd",
+			"sounds/vo/announcer/female_patron/patron_female_enemy_viper_killing_streak_low_01_alt3.vsnd",
+			"sounds/vo/announcer/female_patron/patron_female_enemy_viper_killing_streak_low_01_alt4.vsnd",
+			"sounds/vo/announcer/female_patron/patron_female_enemy_viper_killing_streak_low_01_alt5.vsnd"
+		]
 		vsnd_duration = 7.586479
 	}
 	patron_female_enemy_viper_killing_streak_medium_01_announcer = 
@@ -10701,10 +10708,7 @@
 	{
 		context_name = "npc_male_patron"
 		base = "Base.VO.Announcer"
-		vsnd_files = [
-			"sounds/vo/announcer/male_patron/patron_male_ally_viper_start_02.vsnd",
-			"sounds/vo/announcer/male_patron/patron_male_ally_viper_start_01.vsnd"
-		]
+		vsnd_files = "sounds/vo/announcer/male_patron/patron_male_ally_viper_start_02.vsnd"
 		vsnd_duration = 14.774667
 	}
 	patron_male_ally_viper_start_03_announcer = 
@@ -27591,7 +27595,10 @@
 	{
 		context_name = "npc_male_patron"
 		base = "Base.VO.Announcer"
-		vsnd_files = "sounds/vo/announcer/male_patron/patron_male_ally_artist_killing_streak_02.vsnd"
+		vsnd_files = [
+			"sounds/vo/announcer/male_patron/patron_male_ally_artist_killing_streak_02.vsnd",
+			"sounds/vo/announcer/male_patron/patron_male_ally_artist_killing_streak_02_alt.vsnd"
+		]
 		vsnd_duration = 6.237688
 	}
 	patron_male_ally_artist_killing_streak_03_announcer = 
@@ -27773,7 +27780,10 @@
 	{
 		context_name = "npc_male_patron"
 		base = "Base.VO.Announcer"
-		vsnd_files = "sounds/vo/announcer/male_patron/patron_male_ally_deadpack_start_01.vsnd"
+		vsnd_files = [
+			"sounds/vo/announcer/male_patron/patron_male_ally_deadpack_start_01.vsnd",
+			"sounds/vo/announcer/male_patron/patron_male_ally_deadpack_start_01_alt.vsnd"
+		]
 		vsnd_duration = 15.74927
 	}
 	patron_male_ally_deadpack_start_02_announcer = 
@@ -27787,7 +27797,10 @@
 	{
 		context_name = "npc_male_patron"
 		base = "Base.VO.Announcer"
-		vsnd_files = "sounds/vo/announcer/male_patron/patron_male_ally_deadpack_start_03.vsnd"
+		vsnd_files = [
+			"sounds/vo/announcer/male_patron/patron_male_ally_deadpack_start_03.vsnd",
+			"sounds/vo/announcer/male_patron/patron_male_ally_deadpack_start_03_alt.vsnd"
+		]
 		vsnd_duration = 10.625354
 	}
 	patron_male_ally_deadpack_start_04_announcer = 
